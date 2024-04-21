@@ -1,15 +1,23 @@
 CC = c++
 CXXFLAGS = -std=c++17 -Wall -Wno-deprecated -Wno-deprecated-declarations
+CXXFLAGS += -g
 
 BUILD_DIR = ./bin
-C_FILES = ./src/*.cpp
+CPP_SOURCES = ./src/*.cpp
 
-APP_INCLUDES := -IDependencies/include/ -framework Cocoa -framework OpenGL -framework IOKit
-APP_LINKERS := -L./Dependencies/lib-x86_64 -lglfw3
+INCLUDE := -I./Dependencies/GLFW/include
+INCLUDE += -I./Dependencies/GLEW/include
+INCLUDE += -framework Cocoa -framework OpenGL -framework IOKit
 
-APP_NAME = Application
+LIBS := -L./Dependencies/GLFW/lib-x86_64 -lglfw3
+LIBS += -L./Dependencies/GLEW/lib-x86_64 -lGLEW
+
+TARGET = app
 
 build:
-	$(CC) $(C_FILES) -o $(BUILD_DIR)/$(APP_NAME) $(APP_INCLUDES) $(APP_LINKERS)
+	$(CC) $(CXXFLAGS) $(CPP_SOURCES) -o $(BUILD_DIR)/$(TARGET) $(INCLUDE) $(LIBS)
 
 .PHONY: clean
+
+clean:
+	rm $(BUILD_DIR)/$(TARGET)
